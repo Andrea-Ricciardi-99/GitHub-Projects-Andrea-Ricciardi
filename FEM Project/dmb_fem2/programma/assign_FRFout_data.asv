@@ -1,0 +1,34 @@
+function [node,idir,vf]=assign_FRFout_data(true,false,nnod);
+
+leggi_dati=true;
+while leggi_dati==true
+    lb1='Output node: ';
+    lb2='Output displacement component 1=x, 2=y, 3=theta: ';
+    def_1=''; 
+    def_2=''; 
+    prompt={lb1,lb2};
+    default={def_1,def_2};   
+    dlgTitle=['Static force component n. ' int2str(i)];
+    lineNo=1;
+    answer=inputdlg(prompt,dlgTitle,lineNo,default);
+    if isempty(answer)==true
+        iexit=true;
+    else
+        iexit=false;
+        node=str2double(answer(1)); 
+        idir=str2double(answer(2)); 
+        vf=str2double(answer(3)); 
+        if node>=1 & node<=nnod & idir>=1 & idir<=3 
+            leggi_dati=false;
+        end
+    end 
+end
+
+        node=0;
+        while or((node < 1),(node > nnod)) == 1
+            node=input('Assign : ');
+        end
+        idir=0;
+        while or((idir < 1),(idir > 3)) == 1
+            idir=input('Assign output displacement component 1=x, 2=y, 3=theta: ');
+        end

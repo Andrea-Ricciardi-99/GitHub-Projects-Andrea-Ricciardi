@@ -1,0 +1,34 @@
+clear all
+
+scelta=menu('Scegli la prova','Montante: Misure_05mag06\P1_A','Montante: Misure_12apr06\FV_A');
+
+if scelta==1
+    %Montante: Misure_05mag06\P1_A
+    freq=[2.7478117e+001;  3.7718795e+002];        %frequenze      
+    bb=[1.0948516e-003; 2.5601591e-003];   %r/rc
+    
+elseif scelta==2
+    %Montante con cernierone: Misure_12apr06\FV_A (il primo valore è stato aggiunto)
+    freq=[2.5; 2.4647637e+001; 3.4919288e+001; 8.8183491e+001];        %frequenze      
+    bb=[0.01; 2.1450965e-003; 3.5383248e-003; 2.1368625e-002];   %r/rc
+    
+elseif scelta==3
+    %Isolatore vetroresina: Misure_04apr06\FV_A (il primo valore è stato aggiunto)
+    freq=[2.5; 2.4647637e+001; 3.4919288e+001; 8.8183491e+001];        %frequenze      
+    bb=[0.01; 2.1450965e-003; 3.5383248e-003; 2.1368625e-002];   %r/rc
+end
+
+
+ome=2*pi*freq;
+aa(:,1)=0.5./ome;
+aa(:,2)=0.5*ome;
+x=inv(aa'*aa)*aa'*bb;
+alfa=x(1)
+beta=x(2)
+
+fmax=freq(end)*1.2;
+fre=[0.1:0.1:fmax];
+h=alfa./(2*2*pi*fre)+beta*pi*fre;
+figure;plot(fre,h);grid
+hold on
+plot(freq,bb,'o')

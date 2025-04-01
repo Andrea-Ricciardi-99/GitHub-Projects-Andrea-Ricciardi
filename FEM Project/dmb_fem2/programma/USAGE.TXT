@@ -1,0 +1,70 @@
+                               
+                               
+                               
+  Modalita' d'uso del programma 'DMB_Fem2'
+                  
+  Il programma DMB_Fem2 consente di effettuare analisi dinamiche ad elementi 
+  finiti su strutture piane schematizzabili attraverso elementi finiti trave.
+                               
+  L'inserimento dei dati relativi al modello ad elementi finiti di un sistema
+  di travi viene eseguito preparando (esternamente al programma) un file
+                     
+     'NOME'.inp
+                     
+  in cui sono definiti
+  - il numero di nodi, le posizioni di questi ed i vincoli cui sono soggetti
+  - il numero di elementi trave, quali elementi collegano, le proprieta'
+    elastico-inerziali delle loro sezioni  
+  - l'eventuale numero di masse concentrate, la loro posizione e i corrispondenti 
+    valori di massa e di momento d'inerzia
+  - l'eventuale numero di molle concentrate, la loro posizione e la corrispondente 
+    rigidezza
+                     
+  Per creare un file '.inp' si seguano gli esempi forniti:
+                     
+  - trave1.inp --> trave a mensola divisa in 8 elementi finiti
+  - trave2.inp --> trave appoggio-appoggio divisa in 8 elementi finiti
+  - trave3.inp --> trave a mensola con cerniera in mezzeria, molla e massa
+                   concentrata all'estremità libera, divisa in 8 elementi finiti
+                               
+#page
+                             
+                     
+  Nella costruzione di un file di input occorre rispettare TASSATIVAMENTE 
+  le seguenti regole di introduzione dei dati:
+                       
+  -  i dati che definiscono la struttura sono costituiti da un insieme
+     di valori numerici (numero di nodi, posizioni, codici di vincolo, ecc.)
+  -  l'ordine di inserimento di tali dati e' rigido ed e' quello riportato 
+     nei files di esempio.
+  -  ogni parte di riga posta a destra dei caratteri '! ' (esclamativo+spazio)
+     e' interpretata come un commento, e viene quindi ignorata nel caricamento
+     dei dati. E' possibile inserire un numero a piacere di righe di commento.
+                                
+  Si tenga presente che il programma non effettua nessuna (o quasi) 
+  verifica sulla congruenza dei dati inseriti nel file '.inp'.
+  Una volta caricati i dati viene visualizzata una rapresentazione grafica
+  della struttura, che consente una parziale verifica della correttezza
+  della procedura di inserimento dati.
+                               
+                               
+                               
+#page
+                             
+  Una volta definite le caratteristiche strutturali del sistema da analizzare,
+  e' possibile effettuare le seguenti analisi:
+                             
+  - analisi statica: struttura soggetta al peso proprio o a carichi 
+    statici nodali definiti dall'utente
+                             
+  - analisi di risposta in frequenza per carichi variabili armonicamente
+    nel tempo; in particolare il programma consente di visualizzare la 
+    risposta in frequenza di un grado di liberta' della struttura in un 
+    campo di frequenze predefinito dall'utente oppure di visualizzare la
+    deformata dinamica della struttura ad una assegnata frequenza
+                             
+  - calcolo di frequenze proprie e modi di vibrare del sistema (in assenza 
+    smorzamento)
+                             
+                      
+#END  

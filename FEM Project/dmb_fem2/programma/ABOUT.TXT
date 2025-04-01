@@ -1,0 +1,21 @@
+                            
+ Programma DMB_Fem2 release 3.1:
+                          
+ Programma didattico per lo studio, statico e dinamico lineare
+ ad elementi finiti trave di telai piani.
+                               
+ Limitazioni : Moti fuori dal piano e moti torsionali non considerati.
+	       Non vi e' controllo formale dei dati letti dai file.
+                        
+                                        
+ Autori: Stefano Bruni, Andrea Zuin
+         Dip. di Meccanica campus Bovisa
+         Politecnico di Milano
+                           
+ Questo programma utilizza parti di un codice precedentemente sviluppato 
+ a cura di:
+ Roberto Corradini e Fabio Miotto
+                                  
+ Gli autori ringraziano fin d'ora chiunque vorra' collaborare segnalando errori,
+ proponendo modifiche, o producendo documentazione relativa a casi test. 
+#END                  

@@ -1,0 +1,28 @@
+function [xy,nnod,size,idb,ngdl,nbeam,nbeamT,alfa,beta,beams,Tbeams,funi,...
+        incid_masse,masse,nm_conc,incid_molle,molle,nk_conc]=azzera;
+    
+xy=[];
+nnod=[];
+size=[];
+idb=[];
+ngdl=[];
+nbeam=[];
+alfa=[];
+beta=[];
+incid_masse=[];
+masse=[];
+nm_conc=[];
+incid_molle=[];
+molle=[];
+nk_conc=[];
+beams=[];
+Tbeams=[];
+        funi.incid=[];
+        funi.m=[];
+        funi.EA=[];
+        funi.T=[];
+        funi.l=[];
+        funi.gamma=[];
+        funi.incidenze=[];
+        funi.posiz=[];
+nbeamT=[];

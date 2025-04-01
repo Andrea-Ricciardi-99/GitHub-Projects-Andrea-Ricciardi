@@ -1,0 +1,31 @@
+clear all
+
+De=      [416 280 355 485 920 920 920 920 485 680 355  315 451]/1000;
+Di=      [  0   0   0   0   0   0   0   0 120 120 120  120 120]/1000;
+spessori=[ 84 726 770 860 660 660 660 660 860 180 587 1131 170]/1000;
+densita=7850;
+Young=2.060e11;
+
+area=(De.^2-Di.^2)*pi/4;
+massa=area*densita;
+EA=area*Young;
+EJ=(De.^4-Di.^4)*pi/64*Young;
+
+ascisse=[0 cumsum(spessori)];
+
+ntravi=length(De);
+nnodi=ntravi+1;
+nodi(:,1)=[1:nnodi]';
+nodi(:,2:4)=zeros(nnodi,3);
+nodi(:,5)=ascisse(1:nnodi)';
+nodi(:,6)=zeros(nnodi,1);
+
+travi(:,1)=[1:ntravi]';
+travi(:,2)=[1:ntravi]';
+travi(:,3)=travi(:,2)+1;
+travi(:,4)=massa';
+travi(:,5)=EA';
+travi(:,6)=EJ';
+
+0.5*pi./spessori.*sqrt(EJ./massa)
+lmax=sqrt(0.5*pi/1.5/40*sqrt(EJ./massa))

@@ -1,0 +1,101 @@
+clear all
+
+%genera il modello FEM dmb_fem2 di una sola campata
+
+L=350;
+H=1;                %altezza sospensione
+T=26500;
+m=1.79;
+EJ=1301.80;
+EA=4.75e7;
+fmax=40;
+incastro=false;
+
+tmp=load('ElHabal.txt');
+freq=tmp(:,1);
+h=tmp(:,2);
+omega=2*pi*freq;
+aa=0.5*[1./omega omega];
+x=inv(aa'*aa)*aa'*h;
+alfa=x(1)
+beta=x(2)
+fre=[0.1:0.1:fmax];
+hh=alfa./(2*2*pi*fre)+beta*pi*fre;
+figure;plot(fre,hh,freq,h);grid;legend('analitico','sperimentale')
+
+
+A=4*m*(1.5*fmax)^2;
+B=-T;
+C=-EJ*pi^2;
+Lmax=sqrt((-B+sqrt(B^2-4*A*C))/2/A);
+nn=ceil(0.5*L/Lmax);
+dx=0.5*L/nn;
+vett_x(:,1)=[-L/2:dx:0]';
+nmaster1=length(vett_x);
+nslave1=nmaster1+1;
+ncern1=nmaster1+2;
+vett_x(nslave1)=vett_x(nmaster1);
+vett_x(ncern1)=vett_x(nmaster1);
+vett_x(:,1)=[vett_x(:,1); [dx:dx:L]'];
+nmaster2=length(vett_x);
+nslave2=nmaster2+1;
+ncern2=nmaster2+2;
+vett_x(nslave2)=vett_x(nmaster2);
+vett_x(ncern2)=vett_x(nmaster2);
+vett_x(:,1)=[vett_x(:,1); [L+dx:dx:1.5*L]'];
+
+nnodi=length(vett_x);
+vett_y=zeros(nnodi,1);
+vett_y([ncern1 ncern2])=H;
+gdl=zeros(nnodi,3);
+if incastro
+    gdl([1,nnodi],:)=[1 1 1];
+else
+    gdl(1,:)=[1 1 0];
+    gdl(nnodi,:)=[1 1 0];
+end
+gdl(ncern1,:)=[1 1 0];
+gdl(ncern2,:)=[1 1 0];
+gdl(nslave1,[1 2])=gdl(nmaster1,[1 2]);
+gdl(nslave2,[1 2])=gdl(nmaster2,[1 2]);
+
+nbeam=nnodi-3;
+beam=zeros(nbeam,6);
+vett_ini=[1:nmaster1-1 nmaster1 ncern1+1:nmaster2-1 nmaster2 ncern2+1:nnodi-1];
+vett_fin=[2:nmaster1 ncern1+1:nmaster2 ncern2+1:nnodi];
+nn=length(vett_ini);
+beam(1:nn,1)=vett_ini;
+beam(1:nn,2)=vett_fin;
+beam(1:nn,3)=[m];
+beam(1:nn,4)=[EA];
+beam(1:nn,5)=[EJ];
+beam(1:nn,6)=[T];
+
+vett_ini=[1:nmaster1-1 nmaster1 ncern1+1:nmaster2-1 nmaster2 ncern2+1:nnodi-1];
+vett_fin=[2:nmaster1 ncern1+1:nmaster2 ncern2+1:nnodi];
+nn=length(vett_ini);
+beam(1:nn,1)=vett_ini;
+beam(1:nn,2)=vett_fin;
+beam(1:nn,3)=[m];
+beam(1:nn,4)=[EA];
+beam(1:nn,5)=[EJ];
+beam(1:nn,6)=[T];
+
+
+fid=fopen('El_Habal.inp','w');
+fprintf(fid,'*NODES\n');
+for i=1:nnodi
+    fprintf(fid,'%3.3d  %d  %d  %d   %8.3f   %8.3f\n',i,gdl(i,:),vett_x(i),vett_y(i));    
+end
+fprintf(fid,'*ENDNODES\n');
+fprintf(fid,'*T.BEAMS\n');
+for i=1:nbeam
+    fprintf(fid,'%3.3d  %3.3d  %3.3d  %10.3e  %10.3e  %10.3e  %10.3e\n',i,beam(i,:));    
+end
+fprintf(fid,'*ENDT.BEAMS\n');
+fprintf(fid,'*DAMPING\n');
+fprintf(fid,'%10.3e  %10.3e\n',alfa,beta);
+fclose(fid)
+
+
+

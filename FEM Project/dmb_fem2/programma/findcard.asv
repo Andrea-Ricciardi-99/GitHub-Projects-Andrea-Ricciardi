@@ -1,0 +1,37 @@
+function leggi_card=findcard(fid,card,true,false,facoltativa);
+% Cerca all'interno del file specificato da fid la stringa 'stringa' e posiziona il puntatore di lettura file alla riga successiva.
+% Restituisce 1 se la stringa e' stata trovata, 0 altrimenti.
+
+leggi_card=false;
+frewind(fid);
+while feof(fid)==false
+    riga=fgets(fid);
+    if ~isempty(findstr(riga,card))
+        leggi_card=true;
+        return
+    end
+end
+
+if facoltativa==false
+    error(['Impossibile trovare stringa ' card])
+end
+
+
+%maxiter=1e5;
+% for i=1:maxiter
+%     if feof(fid)==true
+%         if facoltativa==false
+%             error(['Impossibile trovare stringa ' card])
+%         end
+%         return
+%     end
+%     riga=fgets(fid);
+%     if ~isempty(findstr(riga,card))
+%         leggi_card=true;
+%         return
+%     end
+% end
+% 
+% if facoltativa==false
+%     error(['Impossibile trovare stringa ' card])
+% end
